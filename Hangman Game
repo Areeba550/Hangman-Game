@@ -1,0 +1,48 @@
+import random
+
+
+words = ["Dermatoglyphics", "Supercalifragilisticexpialidocious", "Uncopyrightable", "Pneumonoultramicroscopicsilicovolcanoconiosi", "Antidisestablishmentarianism","Floccinaucinihilipilification","Sesquipedalian","Sphygmomanometer","Onomatopoeia","Otorrhinolaryngologist","Defenestration","Triskaidekaphobia","Hippopotomonstrosesquipedaliophobia","Quomodocunquizinga"]
+
+
+selected_word = random.choice(words)
+word_length = len(selected_word)
+guessed_word = ["_"] * word_length
+incorrect_guesses = []
+max_incorrect_guesses = 6
+attempts = 0
+
+print("Welcome to Hangman!")
+print(" ".join(guessed_word))
+
+
+while attempts < max_incorrect_guesses and "_" in guessed_word:
+    guess = input("Guess a letter: ").lower()
+
+
+    if len(guess) != 1 or not guess.isalpha():
+        print("Please enter a single letter.")
+        continue
+
+    if guess in guessed_word or guess in incorrect_guesses:
+        print(f"You've already guessed '{guess}'. Try another letter.")
+        continue
+
+
+    if guess in selected_word:
+        for index, letter in enumerate(selected_word):
+            if letter == guess:
+                guessed_word[index] = guess
+        print("Correct!")
+    else:
+        incorrect_guesses.append(guess)
+        attempts += 1
+        print(f"Incorrect! You have {max_incorrect_guesses - attempts} attempts left.")
+
+    print(" ".join(guessed_word))
+    print(f"Incorrect guesses: {', '.join(incorrect_guesses)}")
+
+
+if "_" not in guessed_word:
+    print(f"Congratulations! You've guessed the word: {selected_word}")
+else:
+    print(f"Sorry, you've run out of attempts. The word was: {selected_word}")
